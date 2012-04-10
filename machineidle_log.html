@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script src="jquery.js"></script>
+        <script src="jquery.validate.js"></script>
+        <script src="jquery.datetimeentry.js"></script>
+
+ <style type="text/css">
+* { font-family: Verdana; font-size: 13px; }
+label { width: 10em; float: left; color:green;font-weight: bold; clear: both; }
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+p { font-weight: bold; clear: both; }
+.submit { margin-left: 12em; }
+</style>
+  <script>
+  $(document).ready(function(){
+  	$('#pfields').hide();
+  	$('#footer').html("")
+	$('#footer2').html("");
+	$('#edate').attr("disabled",true);
+  	$("#machine").load('get_machine.php');
+  	$('#machine').click(function(){
+	$('#operator').load("get_operator.php");
+  	});
+
+  	$('#machine').click(function(){
+	var mid=$('#Machine_ID').val();
+	if(mid!="")
+	{
+		url="get_last_machine_activity.php?mid="+mid;
+	$('#footer').load(url);
+	}
+  	});
+
+  
+  	$('#operator').click(function(){
+	var oid=$('#Operator_ID').val();
+	if(oid!="")
+	{
+
+	$('#pfields').show();
+	}else{
+	$('#pfields').hide();
+	}
+  	});
+
+
+
+  	$('#sdate').focus(function(){
+	var mid=$('#Machine_ID').val();
+			$.ajax({
+      					type: "GET",
+      					url: "get_latest_end_time.php?mid="+mid,
+      					async:false,
+      					success: function(html) {
+						ledt=html;
+						$('#sdate').val(ledt);
+						$('#edate').val(ledt);
+						console.log("back from ajax call "+ledt);
+										}
+    							});
+
+	var sdate=$('#sdate').val();
+
+	if(sdate!="")
+	{
+
+	$('#edate').attr("disabled",false);
+	}else
+	{
+		$('#edate').attr("disabled",true);
+	}
+  	});
+
+
+$(function () {
+	$('#sdate').datetimeEntry({datetimeFormat: 'D-O-Y H:Ma',altField: '#sdatedb', altFormat: 'Y-O-D H:M:S', defaultDatetime: ledt});
+	
+	$('#edate').datetimeEntry({datetimeFormat: 'D-O-Y H:Ma', beforeShow: customRange,altField: '#edatedb', altFormat: 'Y-O-D H:M:S'});
+	
+	});  
+
+
+});
+
+function customRange() { 
+
+return {minDatetime: $('#sdate').datetimeEntry('getDatetime')};
+}
+
+
+  </script>
+
+
+    </head>
+    <body>
+
+
+ <fieldset>
+<legend>Production Details</legend>
+   <p>
+     <label for="machine">Select Machine</label>
+     <div id="machine"></div>
+     <div id="operator"></div>
+	 <div id="pfields">
+	   <p>
+     <label for="sdate">Start Date and Time </label>
+     <input type="text" name="sdate" id="sdate" size="25" class="required">
+      <input type="hidden" name="sdatedb" id="sdatedb" >
+	   <p>
+	
+	   <p>
+     <label for="edate">End Date and Time</label>
+     <input type="text" name="edate" id="edate" size="25" class="required">
+     <input type="hidden" name="edatedb" id="edatedb" > 
+	   <p>
+
+	   <p>
+     <label for="remarks">Remarks</label>
+     <textarea name="remark" rows="4" cols="50" id="remarks" ></textarea> 
+	   <p>
+
+
+	</div>
+
+ </fieldset>
+
+</body>
+</html>

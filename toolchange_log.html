@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script src="jquery.js"></script>
+        <script src="jquery.validate.js"></script>
+        <script src="jquery.datetimeentry.js"></script>
+
+ <style type="text/css">
+* { font-family: Verdana; font-size: 13px; }
+label { width: 10em; float: left; color:green;font-weight: bold; clear: both; }
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+p { font-weight: bold; clear: both; }
+.submit { margin-left: 12em; }
+</style>
+  <script>
+  $(document).ready(function(){
+  	$('#pfields').hide();
+  	$('#footer').html("")
+	$('#footer2').html("");
+	$('#edate').attr("disabled",true);
+  	$("#machine").load('get_machine.php');
+  	$('#machine').click(function(){
+  	$('#customer').load("get_customer.php");
+  	});
+
+  	$('#customer').click(function(){
+  	var cid=$('#Customer_ID').val();
+  	var url="get_drawing.php?custid="+cid;
+  	$('#drawing').load(url);
+  	});
+
+  	$('#machine').click(function(){
+	var mid=$('#Machine_ID').val();
+	if(mid!="")
+	{
+		url="get_last_machine_activity.php?mid="+mid;
+	$('#footer').load(url);
+	}
+  	});
+
+
+
+  	$('#drawing').click(function(){
+	var did=$('#Drawing_ID').val();
+	if(did!="")
+	{
+		var url="get_operation.php?drawingid="+did;
+	$('#operation').load(url);
+	}
+  	});
+  
+  	$('#operation').click(function(){
+	var oid=$('#Operation_ID').val();
+	if(oid!="")
+	{
+	$('#operator').load("get_operator.php");
+	$('#ttype').load("get_tool_types.php");
+	$('#pfields').show();
+	}else{
+	$('#pfields').hide();
+	}
+  	});
+
+
+
+  	$('#sdate').keyup(function(){
+	var sdate=$('#sdate').val();
+	if(sdate!="")
+	{
+	$('#edate').attr("disabled",false);
+	}else
+	{
+		$('#edate').attr("disabled",true);
+	}
+  	});
+
+
+$(function () {
+	$('#sdate').datetimeEntry({datetimeFormat: 'D-O-Y H:Ma',altField: '#sdatedb', altFormat: 'Y-O-D H:M:S'});
+	//$('#sdate').datetimeEntry({altField: '#sdatedb', altFormat: 'D/O/Y h:M'});
+	$('#edate').datetimeEntry({datetimeFormat: 'D-O-Y H:Ma', beforeShow: customRange,altField: '#edatedb', altFormat: 'Y-O-D H:M:S'});
+	//$('#edate').datetimeEntry({altField: '#edatedb', altFormat: 'D/O/Y h:M'});
+	});  
+
+
+});
+
+function customRange() { 
+
+return {minDatetime: $('#sdate').datetimeEntry('getDatetime')};
+}
+
+
+  </script>
+
+
+    </head>
+    <body>
+
+
+ <fieldset>
+<legend>Tool Change Details</legend>
+   <p>
+     <label for="machine">Select Machine</label>
+     <div id="machine"></div>
+     <div id="customer"></div>
+     <div id="drawing"></div>
+     <div id="operation"></div>
+     <div id="operator"></div>
+	 <div id="ttype"></div>
+	 <div id="pfields">
+
+	   <p>
+     <label for="pno">Tool Description</label>
+     <input type="text" name="tdesc" id="tdesc" size="25" class="required"> Ex: Dia 6 Shear Carb, Dia 4 Guhring Endmill etc.  
+	   <p>
+
+	   <p>
+     <label for="qty">Tool Dia</label>
+     <input type="text" name="tdia" id="tdia" size="25" class="required number"> 
+	   <p>
+
+	   <p>
+     <label for="qty">New Tool</label>
+     <input type="radio" name="newt" id="new" class="required" value="New">New 
+     <input type="radio" name="newt" id="resharp" value="Resharpened">Resharpened
+	   <p>
+
+	   <p>
+     <label for="qty">Reason for Change</label>
+<select name="reason" id="reason" class="required">
+	<option value="">Tool Change Reason</option>;
+	<option value="Poor Finish">Poor Surface finish</option>;
+	<option value="Tool Worn Out">Tool Worn Out</option>;
+	<option value="Edge Chip Off">Edge Chip Off</option>;
+	<option value="Hole Over Size">Hole Over Size</option>;
+	<option value="Insert Chip Off">Insert Chip Off</option>;
+	<option value="Tool Broken">Tool Broken</option>;
+	<option value="End of tool Life Reached">End of tool Life Reached</option>;
+</select>
+	   <p>
+
+	   <p>
+     <label for="remarks">Remarks</label>
+     <textarea name="remark" rows="4" cols="50" id="remarks" ></textarea> 
+	   <p>
+
+	   <p>
+     <label for="sdate">Change Date and Time </label>
+     <input type="text" name="sdate" id="sdate" size="25" class="required">
+      <input type="hidden" name="sdatedb" id="sdatedb" >
+	   <p>
+		
+	</div>
+
+ </fieldset>
+
+</body>
+</html>

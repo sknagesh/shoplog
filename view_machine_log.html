@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Machine Log</title>
+        <script src="jquery.js"></script>
+        <script src="jquery.validate.js"></script>
+        <script src="jquery.datetimeentry.js"></script>
+        
+ <style type="text/css">
+* { font-family: Verdana; font-size: 96%; }
+label { width: 10em; float: left; }
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+p { font-weight: bold; clear: both; }
+.submit { margin-left: 12em; }
+</style>
+  <script>
+  $(document).ready(function(){
+  	$("#machine").load('get_machine.php');  //load customer list from get_customer.php
+	$('#dates').hide();		
+	$('#machine').click(function(){
+	var mid=$('#Machine_ID').val();
+	var sdate=$('#sdate').val();
+	var edate=$('#edate').val();
+
+	if(mid!="")
+	{
+	$('#dates').show();
+	
+	if(sdate=="" && edate=="")
+	{
+	var url="get_log_for_machine.php?mid="+mid;	
+	}else
+	{
+			var sdate=$('#sdatedb').val();
+			var edate=$('#edatedb').val();
+
+		var url="get_log_for_machine.php?mid="+mid+"&sdate="+sdate+"&edate="+edate;
+	}
+	
+	$('#footer').load(url);
+	
+	}else
+	{
+		$('#dates').hide();
+		
+	}
+
+	});		
+
+  	$('input:text').keyup(function(){
+	var sdate=$('#sdate').val();
+	var edate=$('#edate').val();
+
+	var mid=$('#Machine_ID').val();
+	
+
+	if(mid!="")
+	{
+
+	if(sdate=="" && edate=="")
+	{
+	var url="get_log_for_machine.php?mid="+mid;	
+	}else
+	{
+			var sdate=$('#sdatedb').val();
+			var edate=$('#edatedb').val();
+
+		var url="get_log_for_machine.php?mid="+mid+"&sdate="+sdate+"&edate="+edate;
+	}
+	
+	$('#footer').load(url);
+	
+	}
+
+
+  	});
+
+
+$(function () {
+	$('#sdate').datetimeEntry({datetimeFormat: 'D-O-Y',altField: '#sdatedb', altFormat: 'Y-O-D', defaultDatetime: '-7d'});
+	
+	$('#edate').datetimeEntry({datetimeFormat: 'D-O-Y', beforeShow: customRange,altField: '#edatedb', altFormat: 'Y-O-D'});
+	
+	});  
+
+  });
+
+function customRange() { 
+
+return {minDatetime: $('#sdate').datetimeEntry('getDatetime')};
+}
+
+  </script>
+
+
+
+
+    </head>
+    <body>
+<div id="adraw">
+  <form name ="adddrawing" id="adddrawing" >
+ <fieldset>
+<legend>Select Machine and Optionally Start and End Date</legend>
+   <p>
+     <label for="machine">Select Machine</label>
+     <div id="machine"></div>
+<div id="dates">
+   <p>
+     <label for="sdate">Start Date</label>
+     <input type="text" id="sdate" name="sdate" size="25"/>
+     <input type="hidden" id="sdatedb" name="sdatedb" />
+   </p>
+   <p>
+     <label for="edate">End Date</label>
+     <input type="text" id="edate" name="edate" size="25"/>
+     <input type="hidden" id="edatedb" name="edatedb" />
+   </p>
+</div>
+ </fieldset>
+ </form>
+<div id="footer"></div>
+<div id="footer2"></div>
+</div>
+
+</body>
+</html>

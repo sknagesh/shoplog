@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>View Job History</title>
+        <script src="jquery.js"></script>
+
+
+ <style type="text/css">
+* { font-family: Verdana; font-size: 14px; }
+label { width: 10em; float: left;font-weight: bold; clear: both; color:green; }
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+p { font-weight: bold; clear: both; }
+.q { clear: both; background-color:#CCCCCC; color:#008000}
+.s { font-weight: bold; clear: both; background-color:#F0F0F0; color:#008000}
+.t { font-weight: bold; clear: both; background-color:#4A779D; color:#F67A00}
+.submit { margin-left: 12em; }
+</style>
+  <script>
+  $(document).ready(function(){
+	  	$("#customer").load('get_customer.php');  //load customer list from get_customer.php
+		$('#customer').click(function(){
+		var custid=$('#Customer_ID').val();
+		var url='get_drawing.php?custid='+custid;
+  		$("#drawing").load(url)
+  		});
+
+
+		$('#drawing').click(function(){
+		var drawingid=$('#Drawing_ID').val();
+		var url='get_operation.php?drawingid='+drawingid;
+  		$("#operation").load(url)
+  		});
+
+		$('#operation').click(function(){
+		var operationid=$('#Operation_ID').val();
+		var url='show_operation_history.php?operationid='+operationid;
+  		$("#footer").load(url)
+  		});
+
+
+
+
+  });
+
+  </script>
+
+
+
+
+    </head>
+    <body>
+  <form name ="addoperation" id="addoperation" action="add_operation.php" method="POST" enctype="multipart/form-data">
+ <fieldset>
+<legend>Select Drawing and  Operation Details</legend>
+    <div id="customer"></div>
+     <div id="drawing"></div>
+     <div id="operation"></div>
+ </fieldset>
+<div id="footer"></div>
+<div id="footer2"></div>
+
+</body>
+</html>

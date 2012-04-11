@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Edit Machine Log</title>
+        <script src="jquery.js"></script>
+        <script src="jquery.validate.js"></script>
+        <script src="jquery.datetimeentry.js"></script>
+        
+ <style type="text/css">
+* { font-family: Verdana; font-size: 14px; }
+label { width: 10em; float: left;font-weight: bold; clear: both; color:green; }
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+p { font-weight: bold; clear: both; }
+.q { clear: both; background-color:#CCCCCC; color:#008000}
+.s { font-weight: bold; clear: both; background-color:#F0F0F0; color:#008000;}
+.t { font-weight: bold; clear: both; background-color:#4A779D; color:#F67A00}
+.s.hover { background-color:#4A779D}
+.q.hover { background-color:#4A779D}
+.submit { margin-left: 12em; }
+
+</style>
+  <script>
+  $(document).ready(function(){
+
+	$('#edit').click(function(){
+		var lid=$('#lid').val();
+		if(lid!="")
+		{
+		url="get_log_entry_for_editing.php?lid="+lid;
+		$('#elog').load(url);
+		}else
+		{
+			$('#footer').html("Please enter Log ID to Edit");
+		}
+		
+
+
+  	$('#customer').live("click",function(){
+  	var cid=$('#Customer_ID').val();
+  	var url="get_drawing.php?custid="+cid;
+  	$('#drawing').load(url);
+  	});
+
+  	$('#drawing').live("click",function(){
+	var did=$('#Drawing_ID').val();
+	if(did!="")
+	{
+		var url="get_operation.php?drawingid="+did;
+	$('#operation').load(url);
+	}
+  	});
+
+
+
+
+
+
+
+
+
+	});
+
+
+
+
+
+
+
+$(function () {
+	$('#sdate').datetimeEntry({datetimeFormat: 'D-O-Y H:Ma',altField: '#sdatedb', altFormat: 'Y-O-D H:M:S'});
+	
+	$('#edate').datetimeEntry({datetimeFormat: 'D-O-Y H:Ma', beforeShow: customRange,altField: '#edatedb', altFormat: 'Y-O-D H:M:S'});
+	
+	});  
+
+  });
+
+function customRange() { 
+
+return {minDatetime: $('#sdate').datetimeEntry('getDatetime')};
+}
+
+  </script>
+
+
+
+
+    </head>
+    <body>
+<div id="adraw">
+  <form name ="adddrawing" id="adddrawing" >
+ <fieldset>
+<legend>Enter Log ID</legend>
+   <p>
+     <label for="lid">Enter Log ID</label>
+     <input type="text" id="lid" name="lid" size="25" class="required number"/>
+     <input type="button" id="edit" name="edit"/>
+   <p>
+
+	<div id="elog"></div>
+     <input type="hidden" id="sdatedb" name="sdatedb" />
+     <input type="hidden" id="edatedb" name="edatedb" />
+
+</div>
+ </fieldset>
+ </form>
+<div id="footer"></div>
+<div id="footer2"></div>
+</div>
+
+</body>
+</html>

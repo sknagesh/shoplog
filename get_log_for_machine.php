@@ -37,8 +37,9 @@ $resa = mysql_query($query, $cxn) or die(mysql_error($cxn));
 $noofrecords=mysql_affected_rows();
 if($noofrecords!=0)
 {
-print("<table cellspacing=\"1\" cellborder=\"1\" border=\"1\">");
-print("<tr><th>Activity</th><th>Drawing No</th><th>Desc</th><th>Start Date Time</th><th>End Date Time</th>
+	$c="q";
+print("<table cellspacing=\"1\" cellborder=\"1\" >");
+print("<tr class=\"t\" ><th>ID</th><th>Activity</th><th>Drawing No</th><th>Desc</th><th>Start Date Time</th><th>End Date Time</th>
 		<th>Total Time</th><th>Quantity</th><th>Operator Name</th><th>Remarks</th></tr>");
 while ($row = mysql_fetch_assoc($resa))
 {
@@ -151,16 +152,16 @@ while ($row = mysql_fetch_assoc($resa))
 
 	}
 		
-		
+		$id=$row['Activity_Log_ID'];
 		$sdt=$row['sdt'];
 		$edt=$row['edt'];
 		$opename=$row['Operator_Name'];
 		$activity=$row['Activity_Name'];
 		$td=$row['td'];
 		$remarks=$row['Remarks'];
-print("<tr><td>$activity</td><td>$dno  $compname</td><td>$operationdesc</td><td>$sdt</td><td>$edt</td><td>$td</td>
-		<td>$qty</td><td>$opename</td><td>$remarks</td></tr>");
-
+print("<tr class=\"$c\"><td>$id</td><td>$activity</td><td>$dno  $compname</td><td>$operationdesc</td><td>$sdt</td><td>$edt</td><td align=\"center\">$td</td>
+		<td align=\"center\">$qty</td><td>$opename</td><td>$remarks</td></tr>");
+if($c=="q"){$c="s";}else{$c="q";}
 }
 print("</table>");
 }else{print("No Activity Detected For This Machine");}

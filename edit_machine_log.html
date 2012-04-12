@@ -23,13 +23,46 @@ p { font-weight: bold; clear: both; }
 </style>
   <script>
   $(document).ready(function(){
-
+	var data=new Array();
+    $("#adddrawing").validate();  //attach validater to form
+	$('#elog').hide();
 	$('#edit').click(function(){
 		var lid=$('#lid').val();
 		if(lid!="")
 		{
-		url="get_log_entry_for_editing.php?lid="+lid;
-		$('#elog').load(url);
+				$.ajax({
+      					type: "GET",
+      					url: "get_log_entry_for_editing.php?lid="+lid,
+      					async:false,
+      					success: function(html) {
+      									
+      						if(html!="")
+      						{
+					data=html.split("<|>");
+					$('#machine').load("get_machine.php?mid="+data[0]);
+					$('#customer').load("get_customer.php?cid="+data[1]);
+					$('#drawing').load("get_drawing.php?did="+data[2]+"&custid="+data[1]);
+					$('#operation').load("get_operation.php?oid="+data[3]+"&drawingid="+data[2]);
+					$('#operator').load("get_operator.php?opeid="+data[4]);
+					$('#sdate').val(data[5]);
+					$('#edate').val(data[6]);
+					$('#qty').val(data[7]);
+					$('#remark').val(data[8]);
+					$('#pno').val(data[9]);
+					$('#sdatedb').val(data[10]);
+					$('#edatedb').val(data[11]);
+					$('#Activity_ID').val(data[12]);
+						$('#elog').show();
+						}else
+						{
+							$('#footer').html("You can edit only Production, Set Up or Re Work Logs");
+						}
+										}
+    							});
+
+	
+	
+	
 		}else
 		{
 			$('#footer').html("Please enter Log ID to Edit");
@@ -37,13 +70,13 @@ p { font-weight: bold; clear: both; }
 		
 
 
-  	$('#customer').live("click",function(){
+  	$('#customer').click(function(){
   	var cid=$('#Customer_ID').val();
   	var url="get_drawing.php?custid="+cid;
   	$('#drawing').load(url);
   	});
 
-  	$('#drawing').live("click",function(){
+  	$('#drawing').click(function(){
 	var did=$('#Drawing_ID').val();
 	if(did!="")
 	{
@@ -52,20 +85,27 @@ p { font-weight: bold; clear: both; }
 	}
   	});
 
+	$("#submit").click(function(event) {
 
+	 if($("#adddrawing").valid())
+  	{
 
-
-
-
-
-
-
+	  	event.preventDefault();  ///we are preventing the form submitting as we are using ajax to dynamically submitting
+		$.ajax({
+  					data: $('#adddrawing').serializeArray(),
+   					type: "POST",
+   					url: "edit_prod_log.php",
+   					success: function(html) {
+					document.getElementById("footer2").innerHTML=html;
+					$('#adddrawing')[0].reset();
+					$('#elog').hide();
+      					}
+    			});
+  	}
 	});
 
 
-
-
-
+	});
 
 
 $(function () {
@@ -95,13 +135,50 @@ return {minDatetime: $('#sdate').datetimeEntry('getDatetime')};
 <legend>Enter Log ID</legend>
    <p>
      <label for="lid">Enter Log ID</label>
-     <input type="text" id="lid" name="lid" size="25" class="required number"/>
-     <input type="button" id="edit" name="edit"/>
+     <input type="text" id="lid" name="lid" size="25"class="required number"/>
+     <input type="button" id="edit" name="edit" value="Edit"/>
    <p>
 
-	<div id="elog"></div>
-     <input type="hidden" id="sdatedb" name="sdatedb" />
-     <input type="hidden" id="edatedb" name="edatedb" />
+	<div id="elog">
+	<label for="machine">Select Machine</label>
+     <div id="machine"></div>
+     <div id="customer"></div>
+     <div id="drawing"></div>
+     <div id="operation"></div>
+     <div id="operator"></div>
+		
+			   <p>
+     <label for="sdate">Start Date and Time </label>
+     <input type="text" name="sdate" id="sdate" size="25" class="required">
+      <input type="hidden" name="sdatedb" id="sdatedb" >
+	   <p>
+	
+	   <p>
+     <label for="edate">End Date and Time</label>
+     <input type="text" name="edate" id="edate" size="25" class="required">
+     <input type="hidden" name="edatedb" id="edatedb" > 
+	   <p>
+		     <input type="hidden" name="Activity_ID" id="Activity_ID" >
+	   <p>
+     <label for="pno">Program No</label>
+     <input type="text" name="pno" id="pno" size="25" class="required"> 
+	   <p>
+
+	   <p>
+     <label for="qty">Production Quantity</label>
+     <input type="text" name="qty" id="qty" size="25" class="required number"> 
+	   <p>
+
+	   <p>
+     <label for="remarks">Remarks</label>
+     <textarea name="remark" rows="4" cols="50" id="remark" ></textarea> 
+	   <p>
+   <p>
+     <input class="submit" id="submit" type="submit" value="Submit"/>
+   </p>
+	
+		
+	</div>
 
 </div>
  </fieldset>

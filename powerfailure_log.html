@@ -36,10 +36,10 @@ p { font-weight: bold; clear: both; }
 
 
   	$('#sdate').focus(function(){
-	var mid=$('#Machine_ID').val();
+
 			$.ajax({
       					type: "GET",
-      					url: "get_latest_end_time.php?mid="+mid,
+      					url: "get_latest_end_time.php?mid=1",
       					async:false,
       					success: function(html) {
 						ledt=html;

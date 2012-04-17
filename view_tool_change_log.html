@@ -20,6 +20,7 @@ p { font-weight: bold; clear: both; }
   <script>
   $(document).ready(function(){
 	  	$("#customer").load('get_customer.php');  //load customer list from get_customer.php
+		$('#footer').load("get_tool_log_for_drawing.php");
 		$('#customer').click(function(){
 		var custid=$('#Customer_ID').val();
 		var url='get_drawing.php?custid='+custid;

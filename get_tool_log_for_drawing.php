@@ -2,7 +2,11 @@
 include('dewdb.inc');
 $cxn = mysql_connect($dewhost,$dewname,$dewpswd) or die(mysql_error());
 mysql_select_db('ShopLog',$cxn) or die("error opening db: ".mysql_error());
-$drawingid=$_GET['drawingid'];
+if(isSet($_GET['drawingid'])){$drawingid=$_GET['drawingid'];}else{$drawingid="";}
+
+if($drawingid!="")
+{
+
 $query="SELECT Machine_Name,Tool_Desc,Tool_Dia,Change_Reason,Remarks, New_Tool,Start_Date_Time,Component_Name,Drawing_NO
 		 FROM ToolChange AS tc
 		 INNER JOIN ActivityLog as actl ON actl.Activity_log_ID=tc.Activity_Log_ID
@@ -10,7 +14,16 @@ $query="SELECT Machine_Name,Tool_Desc,Tool_Dia,Change_Reason,Remarks, New_Tool,S
 		 INNER JOIN Operation AS ope ON ope.Operation_ID=tc.Operation_ID 
 		 INNER JOIN Machine as mach ON mach.Machine_ID=actl.Machine_ID
 		  WHERE tc.Drawing_ID='$drawingid' ORDER BY Start_Date_Time DESC;";
-
+}else{
+$query="SELECT Machine_Name,Tool_Desc,Tool_Dia,Change_Reason,Remarks, New_Tool,Start_Date_Time,Component_Name,Drawing_NO
+		 FROM ToolChange AS tc
+		 INNER JOIN ActivityLog as actl ON actl.Activity_log_ID=tc.Activity_Log_ID
+		 INNER JOIN Component AS comp ON comp.Drawing_ID=tc.Drawing_ID
+		 INNER JOIN Operation AS ope ON ope.Operation_ID=tc.Operation_ID 
+		 INNER JOIN Machine as mach ON mach.Machine_ID=actl.Machine_ID
+		  ORDER BY Start_Date_Time DESC LIMIT 20;";
+		
+	}
 //print($query);
 
 $res=mysql_query($query) or die(mysql_error());

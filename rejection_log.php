@@ -12,6 +12,8 @@ $sdatetime=$_POST['sdatedb'];
 $progno=$_POST['pno'];
 $operatorid=$_POST['Operator_ID'];
 $qty=$_POST['qty'];
+$bno=$_POST['bno'];
+
 if(isSet($_POST['remark'])){$remark=$_POST['remark'];}else{$remarks="";}
 
 
@@ -36,11 +38,13 @@ $lastid=mysql_insert_id();
 $pquery="INSERT INTO Rejection (Activity_Log_ID,
 								Drawing_ID,
 								Operation_ID,
-								Rejection_Qty) ";
+								Rejection_Qty,
+								Batch_ID) ";
 $pquery.="VALUES('$lastid',
 				'$drawingid',
 				'$operationid',
-				'$qty');";
+				'$qty',
+				'$bno');";
 
 //print("<br>$pquery");
 $result=mysql_query($pquery) or die(mysql_error());

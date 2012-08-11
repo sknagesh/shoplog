@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>View Job History</title>
+        <title>Production Summary</title>
         <script src="jquery.js"></script>
 
 
@@ -29,13 +29,7 @@ p { font-weight: bold; clear: both; }
 
 		$('#drawing').click(function(){
 		var drawingid=$('#Drawing_ID').val();
-		var url='get_operation.php?drawingid='+drawingid;
-  		$("#operation").load(url)
-  		});
-
-		$('#operation').click(function(){
-		var operationid=$('#Operation_ID').val();
-		var url='show_operation_history.php?operationid='+operationid;
+		var url='get_prod_summ_for_drg.php?drawingid='+drawingid;
   		$("#footer").load(url)
   		});
 
@@ -53,10 +47,9 @@ p { font-weight: bold; clear: both; }
     <body>
  
  <fieldset>
-<legend>Select Drawing and  Operation Details for Job History</legend>
+<legend>Select Customer and  Drawing Details for Summary</legend>
     <div id="customer"></div>
      <div id="drawing"></div>
-     <div id="operation"></div>
  </fieldset>
 <div id="footer"></div>
 <div id="footer2"></div>

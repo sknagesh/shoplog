@@ -15,6 +15,7 @@ $tdia=$_POST['tdia'];
 $newtool=$_POST['newt'];
 $reason=$_POST['reason'];
 $ttypeid=$_POST['Tool_Type_ID'];
+$bno=$_POST['bno'];
 if(isSet($_POST['remark'])){$remark=$_POST['remark'];}else{$remarks="";}
 
 
@@ -43,7 +44,8 @@ $pquery="INSERT INTO ToolChange (Activity_Log_ID,
 								Tool_Dia,
 								New_Tool,
 								Tool_Type_ID,
-								Change_reason) ";
+								Change_reason,
+								Batch_ID) ";
 $pquery.="VALUES('$lastid',
 				'$drawingid',
 				'$operationid',
@@ -51,7 +53,8 @@ $pquery.="VALUES('$lastid',
 				'$tdia',
 				'$newtool',
 				'$ttypeid',
-				'$reason');";
+				'$reason',
+				'$bno');";
 
 //print("<br>$pquery");
 $result=mysql_query($pquery) or die(mysql_error());

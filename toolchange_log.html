@@ -32,6 +32,8 @@ p { font-weight: bold; clear: both; }
   	$('#drawing').load(url);
   	});
 
+	$('#bno').attr('title','Get Production Batch ID From Srinivas/Udayasuriyan');
+
   	$('#machine').click(function(){
 	var mid=$('#Machine_ID').val();
 	if(mid!="")
@@ -142,6 +144,12 @@ return {minDatetime: $('#sdate').datetimeEntry('getDatetime')};
 	<option value="End of tool Life Reached">End of tool Life Reached</option>;
 </select>
 	   <p>
+
+	   <p>
+     <label for="bno">Divya Engg. Batch ID</label>
+     <input type="text" name="bno" id="bno" size="25" class="required"> 
+	   <p>
+
 
 	   <p>
      <label for="remarks">Remarks</label>

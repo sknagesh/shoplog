@@ -2,13 +2,14 @@
 include('dewdb.inc');
 $cxn = mysql_connect($dewhost,$dewname,$dewpswd) or die(mysql_error());
 mysql_select_db('ShopLog',$cxn) or die("error opening db: ".mysql_error());
-$operationid=$_GET['operationid'];
+$drawid=$_GET['drawingid'];
+
 $query="SELECT Machine_Name,Operation_ID,prod.Drawing_ID,Start_Date_Time,End_Date_Time,Component_Name,Drawing_NO,
 		 Program_NO,Batch_ID FROM Production AS prod
 		 INNER JOIN ActivityLog as actl ON actl.Activity_log_ID=prod.Activity_Log_ID
 		 INNER JOIN Component AS comp ON comp.Drawing_ID=prod.Drawing_ID
 		 INNER JOIN Machine as mach ON mach.Machine_ID=actl.Machine_ID
-		  WHERE prod.Operation_ID='$operationid' ORDER BY End_Date_Time DESC LIMIT 10;";
+		  WHERE prod.Operation_ID='$operationid' ORDER BY End_Date_Time DESC LIMIT 30;";
 
 //print($query);
 

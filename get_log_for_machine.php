@@ -39,14 +39,14 @@ if($noofrecords!=0)
 {
 	$c="q";
 print("<table cellspacing=\"1\" cellborder=\"1\" >");
-print("<tr class=\"t\" ><th>ID</th><th>Activity</th><th>Drawing No</th><th>Desc</th><th>Start Date Time</th><th>End Date Time</th>
-		<th>Total Time</th><th>Quantity</th><th>Operator Name</th><th>Remarks</th></tr>");
+print("<tr class=\"t\" ><th>ID</th><th>Activity</th><th>Drawing No</th><th>Desc</th><th>Batch ID</th><th>Start Date Time</th><th>End Date Time</th>
+		<th>Total Time</th><th>Quantity</th><th>Prog. No.</th><th>Operator Name</th><th>Remarks</th></tr>");
 while ($row = mysql_fetch_assoc($resa))
 {
 		
 	if($row['Activity_ID']==1)
 	{
-		$sq="SELECT Drawing_NO,Component_Name, Operation_Desc,Quantity FROM Production as pro 
+		$sq="SELECT Drawing_NO,Component_Name, Program_NO,Batch_ID,Operation_Desc,Quantity FROM Production as pro 
 		INNER JOIN Component as comp ON comp.Drawing_ID=pro.Drawing_ID
 		INNER JOIN Operation as ope ON ope.Operation_ID=pro.Operation_ID 
 		 WHERE pro.Activity_Log_ID=$row[Activity_Log_ID];";
@@ -56,11 +56,13 @@ while ($row = mysql_fetch_assoc($resa))
 		$compname=$rr['Component_Name'];
 		$operationdesc=$rr['Operation_Desc'];
 		$qty=$rr['Quantity'];
+		$pno=$rr['Program_NO'];
+		$bno=$rr['Batch_ID'];
 		
 	}else
 		if($row['Activity_ID']==2)
 	{
-		$sq="SELECT Drawing_NO,Component_Name, Operation_Desc,Quantity FROM Production as pro 
+		$sq="SELECT Drawing_NO,Component_Name, Program_NO,Batch_ID,Operation_Desc,Quantity FROM Production as pro 
 		INNER JOIN Component as comp ON comp.Drawing_ID=pro.Drawing_ID
 		INNER JOIN Operation as ope ON ope.Operation_ID=pro.Operation_ID 
 		 WHERE pro.Activity_Log_ID=$row[Activity_Log_ID];";
@@ -70,11 +72,13 @@ while ($row = mysql_fetch_assoc($resa))
 		$compname=$rr['Component_Name'];
 		$operationdesc=$rr['Operation_Desc'];
 		$qty=$rr['Quantity'];
+		$pno=$rr['Program_NO'];
+		$bno=$rr['Batch_ID'];
 		 
 	}else
 		if($row['Activity_ID']==3)
 	{
-		$sq="SELECT Drawing_NO,Component_Name, Operation_Desc,Quantity FROM Production as pro 
+		$sq="SELECT Drawing_NO,Program_NO,Batch_ID,Component_Name, Operation_Desc,Quantity FROM Production as pro 
 		INNER JOIN Component as comp ON comp.Drawing_ID=pro.Drawing_ID
 		INNER JOIN Operation as ope ON ope.Operation_ID=pro.Operation_ID 
 		 WHERE pro.Activity_Log_ID=$row[Activity_Log_ID];";
@@ -84,12 +88,14 @@ while ($row = mysql_fetch_assoc($resa))
 		$compname=$rr['Component_Name'];
 		$operationdesc=$rr['Operation_Desc'];
 		$qty=$rr['Quantity'];
+		$pno=$rr['Program_NO'];
+		$bno=$rr['Batch_ID'];
 
 		 
 	}else
 		if($row['Activity_ID']==4)
 	{
-		$sq="SELECT Drawing_NO,Quantity,Operation_Desc FROM NonProduction WHERE Activity_Log_ID=$row[Activity_Log_ID];";
+		$sq="SELECT Drawing_NO,Program_NO,Quantity,Operation_Desc FROM NonProduction WHERE Activity_Log_ID=$row[Activity_Log_ID];";
 		
 		$res = mysql_query($sq, $cxn) or die(mysql_error($cxn));
 		$rr=mysql_fetch_assoc($res);
@@ -97,6 +103,8 @@ while ($row = mysql_fetch_assoc($resa))
 		$compname="";
 		$operationdesc=$rr['Operation_Desc'];
 		$qty=$rr['Quantity'];
+		$pno=$rr['Program_NO'];
+		$bno='';
 	}else
 		if($row['Activity_ID']==5)
 	{
@@ -107,6 +115,8 @@ while ($row = mysql_fetch_assoc($resa))
 		$compname="";
 		$dno='';
 		$qty='';
+		$pno='';
+		$bno='';
 	}else
 		if($row['Activity_ID']==6)
 	{
@@ -117,6 +127,8 @@ while ($row = mysql_fetch_assoc($resa))
 		$dno='';
 		$compname="";
 		$qty='';
+		$pno='';
+		$bno='';
 
 	}else
 		if($row['Activity_ID']==7)
@@ -125,6 +137,8 @@ while ($row = mysql_fetch_assoc($resa))
 		$dno='';
 		$compname="";
 		$qty='';
+		$pno='';
+		$bno='';
 
 	}else
 			if($row['Activity_ID']==8)
@@ -133,12 +147,14 @@ while ($row = mysql_fetch_assoc($resa))
 		$dno='';
 		$compname="";
 		$qty='';
+		$pno='';
+		$bno='';
 
 	}else
 	
 		if($row['Activity_ID']==11)
 	{
-		$sq="SELECT Drawing_NO,Quantity,Operation_Desc FROM NonProduction WHERE Activity_Log_ID=$row[Activity_Log_ID];";
+		$sq="SELECT Drawing_NO,Quantity,Program_NO,Operation_Desc FROM NonProduction WHERE Activity_Log_ID=$row[Activity_Log_ID];";
 		
 		$res = mysql_query($sq, $cxn) or die(mysql_error($cxn));
 		$rr=mysql_fetch_assoc($res);
@@ -146,11 +162,13 @@ while ($row = mysql_fetch_assoc($resa))
 		$compname="";
 		$operationdesc=$rr['Operation_Desc'];
 		$qty=$rr['Quantity'];		
+		$pno=$rr['Program_NO'];
+		$bno='';
 
 	}else
 		if($row['Activity_ID']==12)
 	{
-		$sq="SELECT Drawing_NO,Operation_Desc,Quantity FROM NonProduction WHERE Activity_Log_ID=$row[Activity_Log_ID];";
+		$sq="SELECT Drawing_NO,Program_NO,Operation_Desc,Quantity FROM NonProduction WHERE Activity_Log_ID=$row[Activity_Log_ID];";
 		
 		$res = mysql_query($sq, $cxn) or die(mysql_error($cxn));
 		$rr=mysql_fetch_assoc($res);
@@ -158,6 +176,8 @@ while ($row = mysql_fetch_assoc($resa))
 		$compname="";
 		$operationdesc=$rr['Operation_Desc'];
 		$qty=$rr['Quantity'];
+		$pno=$rr['Program_NO'];
+		$bno='';
 
 	}
 		
@@ -168,8 +188,8 @@ while ($row = mysql_fetch_assoc($resa))
 		$activity=$row['Activity_Name'];
 		$td=$row['td'];
 		$remarks=$row['Remarks'];
-print("<tr class=\"$c\"><td>$id</td><td>$activity</td><td>$dno  $compname</td><td>$operationdesc</td><td>$sdt</td><td>$edt</td><td align=\"center\">$td</td>
-		<td align=\"center\">$qty</td><td>$opename</td><td>$remarks</td></tr>");
+print("<tr class=\"$c\"><td>$id</td><td>$activity</td><td>$dno  $compname</td><td>$operationdesc</td><td>$bno</td><td>$sdt</td><td>$edt</td><td align=\"center\">$td</td>
+		<td align=\"center\">$qty</td><td>$pno</td><td>$opename</td><td>$remarks</td></tr>");
 if($c=="q"){$c="s";}else{$c="q";}
 }
 print("</table>");

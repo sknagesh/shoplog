@@ -13,6 +13,7 @@ $edatetime=$_POST['edatedb'];
 $progno=$_POST['pno'];
 $operatorid=$_POST['Operator_ID'];
 $qty=$_POST['qty'];
+$bno=$_POST['bno'];
 if(isSet($_POST['remark'])){$remark=$_POST['remark'];}else{$remarks="";}
 
 
@@ -29,7 +30,7 @@ $query.="VALUES('$activityid',
 				'$operatorid',
 				'$remark');";
 
-//print("<br>$query");
+print("<br>$query");
 
 $res=mysql_query($query) or die(mysql_error());
 $lastid=mysql_insert_id();
@@ -38,19 +39,21 @@ $pquery="INSERT INTO Production (Activity_Log_ID,
 								Drawing_ID,
 								Operation_ID,
 								Program_NO,
-								Quantity) ";
+								Quantity,
+								Batch_ID) ";
 $pquery.="VALUES('$lastid',
 				'$drawingid',
 				'$operationid',
 				'$progno',
-				'$qty');";
+				'$qty',
+				'$bno');";
 
 //print("<br>$pquery");
 $result=mysql_query($pquery) or die(mysql_error());
 $ok=mysql_affected_rows();
 if($ok!=0)
 {
-	print("Added one Row in to Production Log and Log ID is $lastid");
+	print("Added one Row in to Production Log with Batch ID $bno and Log ID is $lastid");
 }else{
 	print("Error adding into Production Log");
 }

@@ -31,7 +31,7 @@ p { font-weight: bold; clear: both; }
   	var url="get_drawing.php?custid="+cid;
   	$('#drawing').load(url);
   	});
-
+	$('#bno').attr('title','Get Production Batch ID From Srinivas/Udayasuriyan');
   	$('#machine').click(function(){
 	var mid=$('#Machine_ID').val();
 	if(mid!="")
@@ -120,6 +120,12 @@ return {minDatetime: $('#sdate').datetimeEntry('getDatetime')};
      <label for="pno">Program No</label>
      <input type="text" name="pno" id="pno" size="25" class="required"> 
 	   <p>
+
+	   <p>
+     <label for="bno">Divya Engg. Batch ID</label>
+     <input type="text" name="bno" id="bno" size="25" class="required"> 
+	   <p>
+
 
 	   <p>
      <label for="qty">Rejection Quantity</label>

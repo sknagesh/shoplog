@@ -10,6 +10,8 @@ $sdatetime=$_POST['sdatedb'];
 $edatetime=$_POST['edatedb'];
 $drgopn=$_POST['drgop'];
 $operatorid=$_POST['Operator_ID'];
+$progno=$_POST['progno'];
+
 if(isSet($_POST['remark'])){$remark=$_POST['remark'];}else{$remarks="";}
 
 
@@ -39,7 +41,7 @@ $pquery="INSERT INTO NonProduction (Activity_Log_ID,
 $pquery.="VALUES('$lastid',
 				'$drgopn',
 				'',
-				'',
+				'$progno',
 				'');";
 
 //print("<br>$pquery");

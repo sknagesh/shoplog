@@ -20,6 +20,8 @@ p { font-weight: bold; clear: both; }
   <script>
   $(document).ready(function(){
 	  	$("#customer").load('get_customer.php');  //load customer list from get_customer.php
+  		$("#footer").load('get_prod_summ_for_drg.php');
+
 		$('#customer').click(function(){
 		var custid=$('#Customer_ID').val();
 		var url='get_drawing.php?custid='+custid;
@@ -29,10 +31,20 @@ p { font-weight: bold; clear: both; }
 
 		$('#drawing').click(function(){
 		var drawingid=$('#Drawing_ID').val();
+		url2='get_batch_nos_for_drawing.php?drawingid='+drawingid;
+		$("#batchno").load(url2);
 		var url='get_prod_summ_for_drg.php?drawingid='+drawingid;
-  		$("#footer").load(url)
+  		$("#footer").load(url);
+  		
   		});
 
+		$('#batchno').click(function(){
+		var bid=$('#Batch_ID').val();
+		var drawingid=$('#Drawing_ID').val();
+		var url='get_prod_summ_for_drg.php?drawingid='+drawingid+"&bid="+bid;
+  		$("#footer").load(url);
+  		
+  		});
 
 
 
@@ -50,6 +62,7 @@ p { font-weight: bold; clear: both; }
 <legend>Select Customer and  Drawing Details for Summary</legend>
     <div id="customer"></div>
      <div id="drawing"></div>
+     <div id="batchno"></div>
  </fieldset>
 <div id="footer"></div>
 <div id="footer2"></div>

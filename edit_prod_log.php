@@ -14,6 +14,7 @@ $progno=$_POST['pno'];
 $operatorid=$_POST['Operator_ID'];
 $qty=$_POST['qty'];
 $actlid=$_POST['lid'];
+$bid=$_POST['batchid'];
 
 if(isSet($_POST['remark'])){$remarks=$_POST['remark'];}else{$remarks="";}
 
@@ -33,6 +34,7 @@ $res=mysql_query($query) or die(mysql_error());
 $pquery="UPDATE Production SET Drawing_ID=$drawingid,
 								Operation_ID=$operationid,
 								Program_NO='$progno',
+								Batch_ID='$bid',
 								Quantity=$qty WHERE Activity_Log_ID=$actlid; ";
 
 //print("<br>$pquery");

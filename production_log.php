@@ -13,7 +13,7 @@ $edatetime=$_POST['edatedb'];
 $progno=$_POST['pno'];
 $operatorid=$_POST['Operator_ID'];
 $qty=$_POST['qty'];
-$bno=$_POST['bno'];
+$bno=$_POST['Batch_ID'];
 if(isSet($_POST['remark'])){$remark=$_POST['remark'];}else{$remarks="";}
 
 

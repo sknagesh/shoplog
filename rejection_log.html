@@ -31,7 +31,7 @@ p { font-weight: bold; clear: both; }
   	var url="get_drawing.php?custid="+cid;
   	$('#drawing').load(url);
   	});
-	$('#bno').attr('title','Get Production Batch ID From Srinivas/Udayasuriyan');
+
   	$('#machine').click(function(){
 	var mid=$('#Machine_ID').val();
 	if(mid!="")
@@ -45,8 +45,12 @@ p { font-weight: bold; clear: both; }
 
   	$('#drawing').click(function(){
 	var did=$('#Drawing_ID').val();
+	var url2='get_open_batch_no.php?drawingid='+did;
+
 	if(did!="")
 	{
+		$('#batchno').load(url2);
+
 		var url="get_operation.php?drawingid="+did;
 	$('#operation').load(url);
 	}
@@ -107,6 +111,7 @@ return {minDatetime: $('#sdate').datetimeEntry('getDatetime')};
      <div id="machine"></div>
      <div id="customer"></div>
      <div id="drawing"></div>
+     <div id="batchno"></div>
      <div id="operation"></div>
      <div id="operator"></div>
 	 <div id="pfields">
@@ -120,12 +125,6 @@ return {minDatetime: $('#sdate').datetimeEntry('getDatetime')};
      <label for="pno">Program No</label>
      <input type="text" name="pno" id="pno" size="25" class="required"> 
 	   <p>
-
-	   <p>
-     <label for="bno">Divya Engg. Batch ID</label>
-     <input type="text" name="bno" id="bno" size="25" class="required"> 
-	   <p>
-
 
 	   <p>
      <label for="qty">Rejection Quantity</label>

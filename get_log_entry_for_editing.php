@@ -6,7 +6,7 @@ mysql_select_db('ShopLog',$cxn) or die("error opening db: ".mysql_error());
 $lid=$_GET['lid'];
 
 
-$q="SELECT prod.Activity_Log_ID, Activity_ID,Machine_ID, comp.Customer_ID, prod.Drawing_ID,Operation_ID,Start_Date_Time,End_Date_Time,
+$q="SELECT prod.Activity_Log_ID, prod.Batch_ID,Activity_ID,Machine_ID, comp.Customer_ID, prod.Drawing_ID,Operation_ID,Start_Date_Time,End_Date_Time,
 	Operator_ID, DATE_FORMAT(Start_Date_Time,'%d-%m-%Y %h:%i:%s %p') as sdt, DATE_FORMAT(End_Date_time,'%d-%m-%Y %h:%i:%s %p') as edt,Quantity,Remarks,Program_NO FROM Production as prod
 	INNER JOIN ActivityLog as actl ON actl.Activity_Log_ID=prod.Activity_Log_ID 
 	INNER JOIN Component as comp ON comp.Drawing_ID=prod.Drawing_ID 
@@ -33,7 +33,8 @@ if($noofrecords!=0)
 	$sdtdb=$row['Start_Date_Time'];
 	$edtdb=$row['End_Date_Time'];
 	$actid=$row['Activity_ID'];
-	$data=$mid."<|>".$cid."<|>".$did."<|>".$oid."<|>".$opeid."<|>".$sdt."<|>".$edt."<|>".$qty."<|>".$remark."<|>".$pno."<|>".$sdtdb."<|>".$edtdb."<|>".$actid;
+	$bid=$row['Batch_ID'];
+	$data=$mid."<|>".$cid."<|>".$did."<|>".$oid."<|>".$opeid."<|>".$sdt."<|>".$edt."<|>".$qty."<|>".$remark."<|>".$pno."<|>".$sdtdb."<|>".$edtdb."<|>".$actid."<|>".$bid;
 	
 }else	
 {

@@ -31,9 +31,19 @@ p { font-weight: bold; clear: both; }
 		$('#drawing').click(function(){
 		var drawingid=$('#Drawing_ID').val();
 		var url='get_tool_log_for_drawing.php?drawingid='+drawingid;
+		url2='get_batch_nos_for_drawing.php?drawingid='+drawingid;
+		$("#batchno").load(url2);
+ 	
   		$("#footer").load(url)
   		});
 
+		$('#batchno').click(function(){
+		var bid=$('#Batch_ID').val();
+		var drawingid=$('#Drawing_ID').val();
+		var url='get_tool_log_for_drawing.php?drawingid='+drawingid+'&bid='+bid;
+  		$("#footer").load(url);
+  		
+  		});
 
 
 
@@ -51,6 +61,7 @@ p { font-weight: bold; clear: both; }
 <legend>Select Drawing Details</legend>
     <div id="customer"></div>
      <div id="drawing"></div>
+     <div id="batchno"></div>
  </fieldset>
 <div id="footer"></div>
 <div id="footer2"></div>

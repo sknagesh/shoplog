@@ -15,7 +15,7 @@ $tdia=$_POST['tdia'];
 $newtool=$_POST['newt'];
 $reason=$_POST['reason'];
 $ttypeid=$_POST['Tool_Type_ID'];
-$bno=$_POST['bno'];
+$bno=$_POST['Batch_ID'];
 if(isSet($_POST['remark'])){$remark=$_POST['remark'];}else{$remarks="";}
 
 

@@ -47,8 +47,10 @@ p { font-weight: bold; clear: both; }
 
   	$('#drawing').click(function(){
 	var did=$('#Drawing_ID').val();
+	var url2='get_open_batch_no.php?drawingid='+did;
 	if(did!="")
 	{
+				$('#batchno').load(url2);
 		var url="get_operation.php?drawingid="+did;
 	$('#operation').load(url);
 	}
@@ -110,6 +112,7 @@ return {minDatetime: $('#sdate').datetimeEntry('getDatetime')};
      <div id="machine"></div>
      <div id="customer"></div>
      <div id="drawing"></div>
+     <div id="batchno"></div>
      <div id="operation"></div>
      <div id="operator"></div>
 	 <div id="ttype"></div>
@@ -144,12 +147,6 @@ return {minDatetime: $('#sdate').datetimeEntry('getDatetime')};
 	<option value="End of tool Life Reached">End of tool Life Reached</option>;
 </select>
 	   <p>
-
-	   <p>
-     <label for="bno">Divya Engg. Batch ID</label>
-     <input type="text" name="bno" id="bno" size="25" class="required"> 
-	   <p>
-
 
 	   <p>
      <label for="remarks">Remarks</label>

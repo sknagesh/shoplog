@@ -40,6 +40,13 @@ $h = (int)($m / 60); $m = $m % 60;
 return array($h, $m, $s);
 }
 
+function min2hm($secs) {
+if ($secs<0) return false;
+$h = (int)($secs / 60); $m = $secs % 60;
+return $h." H and ".$m." M";
+}
+
+
 
 function hms2mins($secs) {
 if ($secs<0) return false;

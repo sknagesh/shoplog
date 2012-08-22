@@ -30,7 +30,7 @@ $query.="VALUES('$activityid',
 				'$operatorid',
 				'$remark');";
 
-print("<br>$query");
+//print("<br>$query");
 
 $res=mysql_query($query) or die(mysql_error());
 $lastid=mysql_insert_id();

@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Edit Non Production Log</title>
+        <script src="jquery.js"></script>
+        <script src="jquery.validate.js"></script>
+        <script src="jquery.datetimeentry.js"></script>
+        
+ <style type="text/css">
+* { font-family: Verdana; font-size: 14px; }
+label { width: 10em; float: left;font-weight: bold; clear: both; color:green; }
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+p { font-weight: bold; clear: both; }
+.q { clear: both; background-color:#CCCCCC; color:#008000}
+.s { font-weight: bold; clear: both; background-color:#F0F0F0; color:#008000;}
+.t { font-weight: bold; clear: both; background-color:#4A779D; color:#F67A00}
+.s.hover { background-color:#4A779D}
+.q.hover { background-color:#4A779D}
+.submit { margin-left: 12em; }
+
+</style>
+  <script>
+  $(document).ready(function(){
+	var data=new Array();
+    $("#adddrawing").validate();  //attach validater to form
+	$('#elog').hide();
+	$('#edit').click(function(){
+		var lid=$('#lid').val();
+		if(lid!="")
+		{
+				$.ajax({
+      					type: "GET",
+      					url: "get_nonprod_log_entry_for_editing.php?lid="+lid,
+      					async:false,
+      					success: function(html) {
+      									
+      						if(html!="")
+      						{
+					data=html.split("<|>");
+					$('#machine').load("get_machine.php?mid="+data[0]);
+					$('#customer').load("get_customer.php?cid="+data[1]);
+					$('#drgop').val(data[1]);
+					$('#operation').load("get_operation.php?oid="+data[3]+"&drawingid="+data[2]);
+					$('#operator').load("get_operator.php?opeid="+data[4]);
+					$('#sdate').val(data[5]);
+					$('#edate').val(data[6]);
+					$('#qty').val(data[7]);
+					$('#remark').val(data[8]);
+					$('#pno').val(data[9]);
+					$('#sdatedb').val(data[10]);
+					$('#edatedb').val(data[11]);
+					$('#Activity_ID').val(data[12]);
+					$('#batchid').val(data[13]);
+						$('#elog').show();
+						}else
+						{
+							$('#footer').html("You can edit only Production, Set Up or Re Work Logs");
+						}
+										}
+    							});
+
+	
+	
+	
+		}else
+		{
+			$('#footer').html("Please enter Log ID to Edit");
+		}
+		
+
+
+  	$('#customer').click(function(){
+  	var cid=$('#Customer_ID').val();
+  	var url="get_drawing.php?custid="+cid;
+  	$('#drawing').load(url);
+  	});
+
+  	$('#drawing').click(function(){
+	var did=$('#Drawing_ID').val();
+	if(did!="")
+	{
+		var url="get_operation.php?drawingid="+did;
+	$('#operation').load(url);
+	}
+  	});
+
+	$("#submit").click(function(event) {
+
+	 if($("#adddrawing").valid())
+  	{
+
+	  	event.preventDefault();  ///we are preventing the form submitting as we are using ajax to dynamically submitting
+		$.ajax({
+  					data: $('#adddrawing').serializeArray(),
+   					type: "POST",
+   					url: "edit_prod_log.php",
+   					success: function(html) {
+					document.getElementById("footer2").innerHTML=html;
+					$('#adddrawing')[0].reset();
+					$('#elog').hide();
+      					}
+    			});
+  	}
+	});
+
+
+	});
+
+
+$(function () {
+	$('#sdate').datetimeEntry({datetimeFormat: 'D-O-Y H:Ma',altField: '#sdatedb', altFormat: 'Y-O-D H:M:S'});
+	
+	$('#edate').datetimeEntry({datetimeFormat: 'D-O-Y H:Ma', beforeShow: customRange,altField: '#edatedb', altFormat: 'Y-O-D H:M:S'});
+	
+	});  
+
+  });
+
+function customRange() { 
+
+return {minDatetime: $('#sdate').datetimeEntry('getDatetime')};
+}
+
+  </script>
+
+
+
+
+    </head>
+    <body>
+<div id="adraw">
+  <form name ="adddrawing" id="adddrawing" >
+ <fieldset>
+<legend>Enter Log ID</legend>
+   <p>
+     <label for="lid">Enter Log ID</label>
+     <input type="text" id="lid" name="lid" size="25"class="required number"/>
+     <input type="button" id="edit" name="edit" value="Edit"/>
+   <p>
+
+	<div id="elog">
+	<label for="machine">Select Machine</label>
+     <div id="machine"> </div>
+     <div id="customer"> </div>
+     	   <p>
+     <label for="drgop">Drawing/Operation Details</label>
+     <input type="text" name="drgop" id="drgop" size="25" class="required"> 
+	   <p>
+
+     <div id="operation"> </div>
+     <div id="operator"> </div>
+		
+			   <p>
+     <label for="sdate">Start Date and Time </label>
+     <input type="text" name="sdate" id="sdate" size="25" class="required">
+      <input type="hidden" name="sdatedb" id="sdatedb" >
+	   <p>
+	
+	   <p>
+     <label for="edate">End Date and Time</label>
+     <input type="text" name="edate" id="edate" size="25" class="required">
+     <input type="hidden" name="edatedb" id="edatedb" > 
+	   <p>
+		     <input type="hidden" name="Activity_ID" id="Activity_ID" >
+	   <p>
+     <label for="pno">Program No</label>
+     <input type="text" name="pno" id="pno" size="25" class="required"> 
+	   <p>
+
+	   <p>
+     <label for="qty">Production Quantity</label>
+     <input type="text" name="qty" id="qty" size="25" class="required number"> 
+	   <p>
+	   <p>
+     <label for="batchid">Batch ID</label>
+     <input type="text" name="batchid" id="batchid" size="25" class="required"> 
+	   <p>
+
+
+	   <p>
+     <label for="remarks">Remarks</label>
+     <textarea name="remark" rows="4" cols="50" id="remark" ></textarea> 
+	   <p>
+   <p>
+     <input class="submit" id="submit" type="submit" value="Submit"/>
+   </p>
+	
+		
+	</div>
+
+</div>
+ </fieldset>
+ </form>
+<div id="footer"></div>
+<div id="footer2"></div>
+</div>
+
+</body>
+</html>

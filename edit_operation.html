@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Edit Operation Details</title>
+        <script src="jquery.js"></script>
+        <script src="jquery.validate.js"></script>
+
+ <style type="text/css">
+* { font-family: Verdana; font-size: 96%; }
+label { width: 10em; float: left; }
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+p { font-weight: bold; clear: both; }
+.submit { margin-left: 12em; }
+</style>
+  <script>
+  $(document).ready(function(){
+  	$("#customer").load('get_customer.php');  //load customer list from get_customer.php
+    $("#editpart").validate();  //attach validater to form
+
+		$('#customer').click(function(){
+		var custid=$('#Customer_ID').val();
+		var url='get_drawing.php?custid='+custid;
+  		$("#drawing").load(url)
+  		});
+
+		$('#drawing').click(function(){
+		var drawingid=$('#Drawing_ID').val();
+		var url='show_operations_for_drawing.php?drawingid='+drawingid;
+  		$("#footer").load(url)
+		
+		var did=$('#Drawing_ID').val();
+		var url2="get_operation.php?drawingid="+did;
+		$('#operation').load(url2);
+
+  		});
+
+
+
+  	$('#operation').click(function(){
+	var opid=$('#Operation_ID').val();
+
+		$.ajax({
+      					type: "GET",
+      					url: 'edit_operation.php?opid='+opid,
+      					async:false,
+      					success: function(html) {
+						ledt=html;
+						$('#opedit').val(ledt);
+						console.log("back from ajax call "+ledt);
+										}
+    							});
+
+  	});
+
+
+	$("#submit").click(function(event) {
+
+	 if($("#editpart").valid())
+  	{
+	  	event.preventDefault();  ///we are preventing the form submitting as we are using ajax to dynamically submitting
+		$.ajax({
+      					data: $('#editpart').serializeArray(),
+      					type: "POST",
+      					url: "update_operation_desc.php",
+      					success: function(html) {
+				document.getElementById("footer2").innerHTML=html;
+				$('#editpart')[0].reset();
+      							}
+    							});
+
+
+  	}
+
+		});
+
+
+
+
+
+  });
+
+  </script>
+
+
+
+
+    </head>
+    <body>
+<div id="adraw">
+  <form name ="editpart" id="editpart" >
+ <fieldset>
+<legend>Operation Details</legend>
+
+   <p>
+     <label for="cname">Customer's Name</label>
+     <div id="customer"></div>
+   <p>
+     <div id="drawing"></div>
+   <p>
+     <div id="operation"></div>
+   </p>
+   <p>
+     <label for="opedit">New Operation Description </label>
+     <input type="text" name="opedit" id="opedit" size="25" class="required">
+
+   </p>
+   <p>
+     <input class="submit" id="submit" type="submit" value="Submit"/>
+   </p>
+ </fieldset>
+ </form>
+<div id="footer2">Important: You can only edit description, But not change ID of an Operation. Edit Descriptions only for newly added operations where production log entry in not yet done.</div>
+<P></P>
+<P></P>
+<div id="footer"></div>
+</div>
+
+</body>
+</html>

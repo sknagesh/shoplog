@@ -27,7 +27,7 @@ $query="SELECT Machine_Name,Tool_Desc,Tool_Dia,Batch_ID,Operation_Desc,Change_Re
 		 INNER JOIN Operation AS ope ON ope.Operation_ID=tc.Operation_ID 
 		 INNER JOIN Machine as mach ON mach.Machine_ID=actl.Machine_ID
 		 INNER JOIN Operator as oper ON oper.Operator_ID=actl.Operator_ID
-		 ORDER BY Batch_ID,tc.Operation_ID, Start_Date_Time DESC LIMIT 20;";
+		 ORDER BY Batch_ID,tc.Operation_ID, Start_Date_Time DESC;";
 
 		
 	}else{
@@ -39,7 +39,7 @@ $query="SELECT Machine_Name,Tool_Desc,Tool_Dia,Batch_ID,Operation_Desc,Change_Re
 		 INNER JOIN Operation AS ope ON ope.Operation_ID=tc.Operation_ID 
 		 INNER JOIN Machine as mach ON mach.Machine_ID=actl.Machine_ID
 		 INNER JOIN Operator as oper ON oper.Operator_ID=actl.Operator_ID
-		 WHERE Batch_ID='$bid' ORDER BY Batch_ID,tc.Operation_ID, Start_Date_Time DESC LIMIT 20;";
+		 WHERE Batch_ID='$bid' ORDER BY Batch_ID,tc.Operation_ID, Start_Date_Time DESC;";
 		}
 	}
 //print($query);

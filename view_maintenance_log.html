@@ -34,16 +34,10 @@ p { font-weight: bold; clear: both; }
 	{
 	$('#dates').show();
 	
-	if(sdate=="" && edate=="")
-	{
-	var url="get_maint_log_for_machine.php?mid="+mid;	
-	}else
-	{
 			var sdate=$('#sdatedb').val();
 			var edate=$('#edatedb').val();
-
-		var url="get_maint_log_for_machine.php?mid="+mid+"&sdate="+sdate+"&edate="+edate;
-	}
+			var stext=$('#searcht').val();
+			var url="get_maint_log_for_machine.php?mid="+mid+"&sdate="+sdate+"&edate="+edate+"&stext="+stext;
 	
 	$('#footer').load(url);
 	
@@ -72,13 +66,25 @@ p { font-weight: bold; clear: both; }
 	{
 			var sdate=$('#sdatedb').val();
 			var edate=$('#edatedb').val();
-
-		var url="get_maint_log_for_machine.php?mid="+mid+"&sdate="+sdate+"&edate="+edate;
+			var stext=$('#searcht').val();
+			var url="get_maint_log_for_machine.php?mid="+mid+"&sdate="+sdate+"&edate="+edate+"&stext="+stext;
 	}
 	
 	$('#footer').load(url);
 	
 	}
+
+$('#searcht').keyup(function(){
+	var stext=$('#searcht').val();
+	var sdate=$('#sdatedb').val();
+	var edate=$('#edatedb').val();
+	var mid=$('#Machine_ID').val();
+	var url="get_maint_log_for_machine.php?mid="+mid+"&sdate="+sdate+"&edate="+edate+"&stext="+stext;
+	
+	$('#footer').load(url);
+	
+	
+});
 
 
   	});
@@ -111,7 +117,11 @@ return {minDatetime: $('#sdate').datetimeEntry('getDatetime')};
 <legend>Select Machine and Optionally Start and End Date</legend>
    <p>
      <label for="machine">Select Machine</label>
-     <div id="machine"></div>
+     <div id="machine"> </div>
+     <div id="smaint">
+ 	     <label for="s">Search Text</label>
+	     <input type="text" id="searcht" name="searctt" size="25"/>
+     	 </div>
 <div id="dates">
    <p>
      <label for="sdate">Start Date</label>

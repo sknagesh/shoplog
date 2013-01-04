@@ -3,7 +3,7 @@ include('dewdb.inc');
 $cxn = mysql_connect($dewhost,$dewname,$dewpswd) or die(mysql_error());
 mysql_select_db('ShopLog',$cxn) or die("error opening db: ".mysql_error());
 $operationid=$_GET['operationid'];
-$query="SELECT actl.Activity_Log_ID,Machine_Name,Operation_ID,Operator_Name,prod.Drawing_ID,
+$query="SELECT actl.Activity_Log_ID,Machine_Name,Operation_ID,Remarks,Operator_Name,prod.Drawing_ID,
 		DATE_FORMAT(Start_Date_Time,'%d/%m/%Y %h:%i %p') as sdt,
 		DATE_FORMAT(End_Date_Time,'%d/%m/%Y %h:%i %p')as edt,Component_Name,Drawing_NO,
 		 Program_NO,Batch_ID FROM Production AS prod
@@ -21,11 +21,11 @@ if($r!=0)
 {
 	$c="q";
 print("<table cellspacing=\"1\">");
-print("<tr class=\"t\"><th>Log ID</th><th>Machine</th><th>Drawing No and Name</th><th>Batch NO</th><th>Program NO</th><th>Operator</th><th>Start Date and Time</th><th>End Date and Time</th></tr>");
+print("<tr class=\"t\"><th>Log ID</th><th>Machine</th><th>Drawing No and Name</th><th>Batch NO</th><th>Program NO</th><th>Operator</th><th>Start Date and Time</th><th>End Date and Time</th><th>Remarks</th></tr>");
 while($row=mysql_fetch_assoc($res))
 {
 
-print("<tr class=\"$c\"><td>$row[Activity_Log_ID]</td><td>$row[Machine_Name]</td><td>$row[Drawing_NO]  $row[Component_Name]</td><td>$row[Batch_ID]</td><td>$row[Program_NO]</td><td>$row[Operator_Name]</td><td>$row[sdt]</td><td>$row[edt]</td></tr>");
+print("<tr class=\"$c\"><td>$row[Activity_Log_ID]</td><td>$row[Machine_Name]</td><td>$row[Drawing_NO]  $row[Component_Name]</td><td>$row[Batch_ID]</td><td>$row[Program_NO]</td><td>$row[Operator_Name]</td><td>$row[sdt]</td><td>$row[edt]</td><td>$row[Remarks]</td></tr>");
 	if($c=="q"){$c="s";}else{$c="q";}
 }
 print("</table>");

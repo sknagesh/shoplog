@@ -4,8 +4,15 @@ $cxn = mysql_connect($dewhost,$dewname,$dewpswd) or die(mysql_error());
 mysql_select_db('ShopLog',$cxn) or die("error opening db: ".mysql_error());
 $custid=$_GET['custid'];
 if(isSet($_GET['did'])){$did=$_GET['did'];}else{$did="";}
+if(isSet($_GET['hcomp'])){$hcomp=$_GET['hcomp'];}else{$hcomp="";}
 //print_r($_POST);
+if($hcomp!=1)
+{
 $query="SELECT * FROM Component WHERE Customer_ID='$custid';";
+}else
+	{
+		$query="SELECT * FROM Component WHERE Customer_ID='$custid' AND Hide_In_Prod=0;";
+	}
 print("<label for=\"draw\">Select Drawing</label>");
 print("<select name=\"Drawing_ID\" id=\"Drawing_ID\" class=\"required\">");
 echo '<option value="">Select Drawing</option>';

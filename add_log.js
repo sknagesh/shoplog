@@ -82,7 +82,13 @@
 	{
 		var url="fixturework_log.html";
 		phpfile="fixturework_log.php";
+	}else
+		if(aid==14) //CMM inspection
+	{
+		var url="production_log.html";
+		phpfile="production_log.php";
 	}
+
 
 	$('#fields').load(url);
 

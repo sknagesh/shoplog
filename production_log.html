@@ -28,7 +28,7 @@ p { font-weight: bold; clear: both; }
 
   	$('#customer').click(function(){
   	var cid=$('#Customer_ID').val();
-  	var url="get_drawing.php?custid="+cid;
+  	var url="get_drawing.php?custid="+cid+'&hcomp=1';
   	$('#drawing').load(url);
   	});
 	$('#bno').attr('title','Get Production Batch ID From Srinivas/Udayasuriyan');

@@ -93,6 +93,25 @@ while ($row = mysql_fetch_assoc($resa))
 
 		 
 	}else
+	
+	if($row['Activity_ID']==14)
+	{
+		$sq="SELECT Drawing_NO,Program_NO,Batch_ID,Component_Name, Operation_Desc,Quantity FROM Production as pro 
+		INNER JOIN Component as comp ON comp.Drawing_ID=pro.Drawing_ID
+		INNER JOIN Operation as ope ON ope.Operation_ID=pro.Operation_ID 
+		 WHERE pro.Activity_Log_ID=$row[Activity_Log_ID];";
+		$res = mysql_query($sq, $cxn) or die(mysql_error($cxn));
+		$rr=mysql_fetch_assoc($res);
+		$dno=$rr['Drawing_NO'];
+		$compname=$rr['Component_Name'];
+		$operationdesc=$rr['Operation_Desc'];
+		$qty=$rr['Quantity'];
+		$pno=$rr['Program_NO'];
+		$bno=$rr['Batch_ID'];
+
+		 
+	}else
+	
 		if($row['Activity_ID']==4)
 	{
 		$sq="SELECT Drawing_NO,Program_NO,Quantity,Operation_Desc FROM NonProduction WHERE Activity_Log_ID=$row[Activity_Log_ID];";

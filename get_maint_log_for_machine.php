@@ -7,9 +7,43 @@ if(isSet($_GET['mid'])){$mid=$_GET['mid'];}else{$mid="";}
 if(isSet($_GET['sdate'])){$sdate=$_GET['sdate'];}else{$sdate="";}
 if(isSet($_GET['edate'])){$edate=$_GET['edate'];}else{$edate="";}
 if(isSet($_GET['stext'])){$stext=$_GET['stext'];}else{$stext="";}
+if(isSet($_GET['mtype'])){$mtype=$_GET['mtype'];}else{$mtype="";}
 
-if($sdate!=""&&$edate!=""&&$stext!="")
+if($stext!="")
 {
+	
+	$setext="AND (Remarks LIKE '%$stext%' OR 
+		Problem_Desc LIKE '%$stext%' OR 
+		Maint_Desc LIKE '%$stext%')";
+}
+
+
+if($mid!='')
+{
+	
+	$mid="AND actl.Machine_ID='$mid'";
+}
+
+if($sdate!='')
+{
+	
+	$sdate="AND Start_Date_Time>='$sdate'";
+}
+
+if($edate!='')
+{
+	
+	$edate="AND Start_Date_Time<='$edate'";
+}
+
+
+if($mtype!='')
+{
+	
+	$mtype="AND actl.Activity_ID='$mtype'";
+}
+
+
 	
 $query="SELECT actl.Activity_Log_ID,actl.Activity_ID, actl.Machine_ID,Machine_Name,
 		DATE_FORMAT(Start_Date_Time,'%d/%m/%Y %h:%i %p') as sdt,
@@ -20,82 +54,11 @@ $query="SELECT actl.Activity_Log_ID,actl.Activity_ID, actl.Machine_ID,Machine_Na
 		INNER JOIN Operator as ope ON ope.Operator_ID=actl.Operator_ID
 		INNER JOIN Maintenance as maint ON maint.Activity_Log_ID=actl.Activity_Log_ID
 		INNER JOIN Machine AS ma ON ma.Machine_ID=actl.Machine_ID 
-		WHERE actl.Activity_ID IN(5,6) 
-		AND Start_Date_Time>='$sdate' AND Start_Date_Time<='$edate' 
-		AND actl.Machine_ID='$mid' AND 
-		(Remarks LIKE '%$stext%' OR 
-		Problem_Desc LIKE '%$stext%' OR 
-		Maint_Desc LIKE '%$stext%') ORDER BY End_Date_Time DESC;";
+		WHERE actl.Activity_ID IN(5,6) $mid $sdate $edate $mtype $setext 
+		  ORDER BY End_Date_Time DESC;";
 	
-}else
-if($sdate!=""&&$edate!="")
-{
-$query="SELECT actl.Activity_Log_ID,actl.Activity_ID, Machine_ID,
-		DATE_FORMAT(Start_Date_Time,'%d/%m/%Y %h:%i %p') as sdt,
-		DATE_FORMAT(End_Date_Time,'%d/%m/%Y %h:%i %p')as edt,
-		TIMEDIFF(End_Date_Time,Start_Date_Time) as td,
-		actl.Operator_ID,Remarks,Operator_Name,Activity_Name,Problem_Desc,Maint_Desc,Spares_Used,MakinoEng FROM ActivityLog as actl  
-		INNER JOIN Activity as act ON act.Activity_ID=actl.Activity_ID 
-		INNER JOIN Operator as ope ON ope.Operator_ID=actl.Operator_ID
-		INNER JOIN Maintenance as maint ON maint.Activity_Log_ID=actl.Activity_Log_ID 
-		WHERE Machine_ID='$mid' AND actl.Activity_ID IN(5,6) 
-		AND Start_Date_Time>='$sdate' AND Start_Date_Time<='$edate' ORDER BY End_Date_Time DESC;";
-	
-	
-}else
-
-if($mid!=''&&$stext!="")
-{
-	
-$query="SELECT actl.Activity_Log_ID,actl.Activity_ID, actl.Machine_ID,Machine_Name,
-		DATE_FORMAT(Start_Date_Time,'%d/%m/%Y %h:%i %p') as sdt,
-		DATE_FORMAT(End_Date_Time,'%d/%m/%Y %h:%i %p')as edt,
-		TIMEDIFF(End_Date_Time,Start_Date_Time) as td,
-		actl.Operator_ID,Remarks,Operator_Name,Activity_Name,Problem_Desc,Maint_Desc,Spares_Used,MakinoEng FROM ActivityLog as actl  
-		INNER JOIN Activity as act ON act.Activity_ID=actl.Activity_ID 
-		INNER JOIN Operator as ope ON ope.Operator_ID=actl.Operator_ID
-		INNER JOIN Maintenance as maint ON maint.Activity_Log_ID=actl.Activity_Log_ID 
-		INNER JOIN Machine AS ma ON ma.Machine_ID=actl.Machine_ID
-		WHERE actl.Machine_ID='$mid' AND actl.Activity_ID IN(5,6) 
-		AND actl.Machine_ID='$mid' AND 
-		(Remarks LIKE '%$stext%' OR 
-		Problem_Desc LIKE '%$stext%' OR 
-		Maint_Desc LIKE '%$stext%') ORDER BY End_Date_Time DESC;";
-	
-}else
-
-if($stext!="")
-{
-	
-$query="SELECT actl.Activity_Log_ID,actl.Activity_ID, actl.Machine_ID,Machine_Name,
-		DATE_FORMAT(Start_Date_Time,'%d/%m/%Y %h:%i %p') as sdt,
-		DATE_FORMAT(End_Date_Time,'%d/%m/%Y %h:%i %p')as edt,
-		TIMEDIFF(End_Date_Time,Start_Date_Time) as td,
-		actl.Operator_ID,Remarks,Operator_Name,Activity_Name,Problem_Desc,Maint_Desc,Spares_Used,MakinoEng FROM ActivityLog as actl  
-		INNER JOIN Activity as act ON act.Activity_ID=actl.Activity_ID 
-		INNER JOIN Operator as ope ON ope.Operator_ID=actl.Operator_ID
-		INNER JOIN Maintenance as maint ON maint.Activity_Log_ID=actl.Activity_Log_ID 
-		INNER JOIN Machine AS ma ON ma.Machine_ID=actl.Machine_ID
-		WHERE actl.Machine_ID='$mid' AND actl.Activity_ID IN(5,6) 
-		AND Remarks LIKE '%$stext%' OR 
-		Problem_Desc LIKE '%$stext%' OR 
-		Maint_Desc LIKE '%$stext%' ORDER BY End_Date_Time DESC;";
-	
-}else
-{
-$query="SELECT actl.Activity_Log_ID,actl.Activity_ID, actl.Machine_ID,Machine_Name,
-		DATE_FORMAT(Start_Date_Time,'%d/%m/%Y %h:%i %p') as sdt,
-		DATE_FORMAT(End_Date_Time,'%d/%m/%Y %h:%i %p')as edt,
-		TIMEDIFF(End_Date_Time,Start_Date_Time) as td,
-		actl.Operator_ID,Remarks,Operator_Name,Activity_Name,Problem_Desc,Maint_Desc,Spares_Used,MakinoEng
-		 FROM ActivityLog as actl  
-		INNER JOIN Activity as act ON act.Activity_ID=actl.Activity_ID 
-		INNER JOIN Operator as ope ON ope.Operator_ID=actl.Operator_ID
-		INNER JOIN Maintenance as maint ON maint.Activity_Log_ID=actl.Activity_Log_ID
-		INNER JOIN Machine AS ma ON ma.Machine_ID=actl.Machine_ID
-		WHERE actl.Machine_ID='$mid' AND actl.Activity_ID IN(5,6) ORDER BY End_Date_Time DESC;";
-}
 //print("$query<br>");
+
 print("<br><h1>Maintenance Entries for this Machine</h1><br>");
 $resa = mysql_query($query, $cxn) or die(mysql_error($cxn));
 $noofrecords=mysql_affected_rows();

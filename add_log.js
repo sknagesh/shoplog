@@ -87,6 +87,11 @@
 	{
 		var url="production_log.html";
 		phpfile="production_log.php";
+	}else
+		if(aid==15) //Non Conformance Report
+	{
+		var url="non_conformance_log.html";
+		phpfile="non_conformance_log.php";
 	}
 
 

@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script src="jquery.js"></script>
+        <script src="jquery.validate.js"></script>
+        <script src="jquery.datetimeentry.js"></script>
+
+ <style type="text/css">
+* { font-family: Verdana; font-size: 13px; }
+label { width: 10em; float: left; color:green;font-weight: bold; clear: both; }
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+p { font-weight: bold; clear: both; }
+.submit { margin-left: 12em; }
+</style>
+  <script>
+  $(document).ready(function(){
+	var ledt="";
+  	$('#pfields').hide();
+  	$('#footer').html("")
+	$('#footer2').html("");
+	$('#edate').attr("disabled",true);
+  	$('#customer').load("get_customer.php");
+
+  	$('#customer').click(function(){
+  	var cid=$('#Customer_ID').val();
+  	var url="get_drawing.php?custid="+cid+'&hcomp=1';
+  	$('#drawing').load(url);
+  	});
+
+  	$('#drawing').click(function(){
+	var did=$('#Drawing_ID').val();
+	var url2='get_open_batch_no.php?drawingid='+did;
+
+		if(did!="")
+		{
+			$('#batchno').load(url2);
+		}
+	$('#operator').load("get_operator.php");
+	$('#nctype').load("get_nctype.php");
+	$('#ncstatus').load("get_ncstatus.php");
+var oid=$('Operatio_ID').val();
+	if(oid!="")
+	{
+
+	$('#pfields').show();
+	}else{
+	$('#pfields').hide();
+	}
+
+  	});
+  
+
+
+
+
+  	$('#sdate').focus(function(){
+	var mid=$('#Machine_ID').val();
+			$.ajax({
+      					type: "GET",
+      					url: "get_latest_end_time.php?mid="+mid,
+      					async:false,
+      					success: function(html) {
+						ledt=html;
+						$('#sdate').val(ledt);
+						$('#edate').val(ledt);
+						console.log("back from ajax call "+ledt);
+										}
+    							});
+
+  	});
+
+
+$(function () {
+	$('#sdate').datetimeEntry({datetimeFormat: 'D-O-Y',altField: '#sdatedb', altFormat: 'Y-O-D', defaultDatetime: ledt});
+	
+	
+	});  
+
+
+});
+
+function customRange() { 
+
+return {minDatetime: $('#sdate').datetimeEntry('getDatetime')};
+}
+
+
+  </script>
+
+
+    </head>
+    <body>
+
+
+ <fieldset>
+<legend>Production Details</legend>
+   <p>
+     <label for="machine">Select Machine</label>
+     <div id="customer"> </div>
+     <div id="drawing"> </div>
+     <div id="batchno"> </div>
+     <div id="operator"> </div>
+     <div id="nctype"> </div>
+      <div id="ncstatus"> </div>
+     
+	 <div id="pfields">
+	   <p>
+     <label for="sdate">NC Date </label>
+     <input type="text" name="sdate" id="sdate" size="25" class="required">
+      <input type="hidden" name="sdatedb" id="sdatedb" >
+	   <p>
+
+	   <p>
+     <label for="remarks">NC Description</label>
+     <textarea name="ncdesc" rows="4" cols="50" id="ncdesc" class="required"> </textarea> 
+	   <p>
+		
+	<label for="remarks">Root Cause For NC</label>
+     <textarea name="rootca" rows="4" cols="50" id="rootca" class="required"> </textarea> 
+	   <p>
+		
+	<label for="remarks">Corrective Action</label>
+     <textarea name="corract" rows="4" cols="50" id="corract" class="required"> </textarea> 
+	   <p>
+	   	
+	   <p>
+     <label for="sdate">NC Percentage </label>
+     <input type="text" name="ncp" id="ncp" size="25">
+	   <p>
+	   	
+	   	
+	   <label for="remarks">Remarks</label>
+     <textarea name="remarks" rows="4" cols="50" id="remarks" > </textarea> 
+	   <p>
+	   	
+	   	
+	</div>
+
+ </fieldset>
+
+</body>
+</html>

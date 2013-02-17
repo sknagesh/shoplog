@@ -24,67 +24,76 @@ p { font-weight: bold; clear: both; }
   <script>
   $(document).ready(function(){
   	$("#machine").load('get_machine.php');  //load customer list from get_customer.php
-	$('#dates').hide();		
-	$('#machine').click(function(){
-	var mid=$('#Machine_ID').val();
-	var sdate=$('#sdate').val();
-	var edate=$('#edate').val();
 
-	if(mid!="")
-	{
-	$('#dates').show();
-	
+			var mid=$('#Machine_ID').val();
+			var mtype=$('#mainttype').val();	
 			var sdate=$('#sdatedb').val();
 			var edate=$('#edatedb').val();
 			var stext=$('#searcht').val();
-			var url="get_maint_log_for_machine.php?mid="+mid+"&sdate="+sdate+"&edate="+edate+"&stext="+stext;
-	
-	$('#footer').load(url);
-	
-	}else
-	{
-		$('#dates').hide();
-		
-	}
 
+			var url="get_maint_log_for_machine.php?sdate="+sdate+"&edate="+edate+"&stext="+stext+"&mtype="+mtype;
+	
+		$('#footer').load(url);
+	
+
+	$('#machine').click(function(){
+			var mid=$('#Machine_ID').val();
+			var mtype=$('#mainttype').val();	
+			var sdate=$('#sdatedb').val();
+			var edate=$('#edatedb').val();
+			var stext=$('#searcht').val();
+
+			var url="get_maint_log_for_machine.php?mid="+mid+"&sdate="+sdate+"&edate="+edate+"&stext="+stext+"&mtype="+mtype;
+	
+		$('#footer').load(url);
+	
 	});		
 
   	$('input:text').keyup(function(){
-	var sdate=$('#sdate').val();
-	var edate=$('#edate').val();
 
-	var mid=$('#Machine_ID').val();
-	
-
-	if(mid!="")
-	{
-
-	if(sdate=="" && edate=="")
-	{
-	var url="get_maint_log_for_machine.php?mid="+mid;	
-	}else
-	{
+			var mid=$('#Machine_ID').val();
+			var mtype=$('#mainttype').val();	
 			var sdate=$('#sdatedb').val();
 			var edate=$('#edatedb').val();
 			var stext=$('#searcht').val();
-			var url="get_maint_log_for_machine.php?mid="+mid+"&sdate="+sdate+"&edate="+edate+"&stext="+stext;
-	}
+
+			var url="get_maint_log_for_machine.php?mid="+mid+"&sdate="+sdate+"&edate="+edate+"&stext="+stext+"&mtype="+mtype;
 	
-	$('#footer').load(url);
+		$('#footer').load(url);
+
 	
-	}
+	});
 
 $('#searcht').keyup(function(){
-	var stext=$('#searcht').val();
-	var sdate=$('#sdatedb').val();
-	var edate=$('#edatedb').val();
-	var mid=$('#Machine_ID').val();
-	var url="get_maint_log_for_machine.php?mid="+mid+"&sdate="+sdate+"&edate="+edate+"&stext="+stext;
+			var mid=$('#Machine_ID').val();
+			var mtype=$('#mainttype').val();	
+			var sdate=$('#sdatedb').val();
+			var edate=$('#edatedb').val();
+			var stext=$('#searcht').val();
+
+			var url="get_maint_log_for_machine.php?mid="+mid+"&sdate="+sdate+"&edate="+edate+"&stext="+stext+"&mtype="+mtype;
 	
-	$('#footer').load(url);
+		$('#footer').load(url);
 	
 	
-});
+	});
+
+
+$('#mtype').click(function(){
+	
+			var mid=$('#Machine_ID').val();
+			var mtype=$('#mainttype').val();	
+			var sdate=$('#sdatedb').val();
+			var edate=$('#edatedb').val();
+			var stext=$('#searcht').val();
+
+			var url="get_maint_log_for_machine.php?mid="+mid+"&sdate="+sdate+"&edate="+edate+"&stext="+stext+"&mtype="+mtype;
+	
+		$('#footer').load(url);
+
+	
+	});
+
 
 
   	});
@@ -97,7 +106,7 @@ $(function () {
 	
 	});  
 
-  });
+  
 
 function customRange() { 
 
@@ -118,6 +127,13 @@ return {minDatetime: $('#sdate').datetimeEntry('getDatetime')};
    <p>
      <label for="machine">Select Machine</label>
      <div id="machine"> </div>
+     <div id="mtype"><label for="mtype">Maintenence Type</label>
+		<select name="mainttype" id="mainttype" >
+			<option value="">Select Maintenance Type</option>
+			<option value="5">Breakdown Maintenance</option>
+			<option value="6">Preventive Maintenance</option>
+		</select>
+     </div>
      <div id="smaint">
  	     <label for="s">Search Text</label>
 	     <input type="text" id="searcht" name="searctt" size="25"/>

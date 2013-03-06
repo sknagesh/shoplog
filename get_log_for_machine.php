@@ -32,7 +32,7 @@ $query="SELECT Activity_Log_ID,actl.Activity_ID, Machine_ID,
 		WHERE Machine_ID='$mid' AND actl.Activity_ID NOT IN(9,10) ORDER BY End_Date_Time DESC;";
 }
 //print("$query<br>");
-print("<br><h1>Log Entries for this Machine</h1><br>");
+print("<br><h1>Activity Log DEW/MR/R/15</h1><br>");
 $resa = mysql_query($query, $cxn) or die(mysql_error($cxn));
 $noofrecords=mysql_affected_rows();
 if($noofrecords!=0)

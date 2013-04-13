@@ -11,7 +11,7 @@ $q="SELECT prod.Activity_Log_ID, prod.Batch_ID,Activity_ID,Machine_ID, comp.Cust
 	INNER JOIN ActivityLog as actl ON actl.Activity_Log_ID=prod.Activity_Log_ID 
 	INNER JOIN Component as comp ON comp.Drawing_ID=prod.Drawing_ID 
 	INNER JOIN Customer as cust on cust.Customer_ID=comp.Customer_ID 
-	WHERE prod.Activity_Log_ID='$lid' AND Activity_ID IN(1,2,3);";
+	WHERE prod.Activity_Log_ID='$lid' AND Activity_ID IN(1,2,3,14);";
 
 //print($q);
 $resa = mysql_query($q, $cxn) or die(mysql_error($cxn));
